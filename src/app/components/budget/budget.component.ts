@@ -9,9 +9,8 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [MatInputModule, MatButtonModule, FormsModule],
   templateUrl: './budget.component.html',
-  styleUrls: ['./budget.component.css'],
+  styleUrls: ['./budget.component.scss'],
 })
-
 export class BudgetComponent {
   weeklyBudget: number = 0;
 

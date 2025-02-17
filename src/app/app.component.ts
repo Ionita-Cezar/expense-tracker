@@ -12,6 +12,6 @@ import { SummaryComponent } from './components/summary/summary.component';
     <app-daily-expense></app-daily-expense>
     <app-summary></app-summary>
   `,
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {}

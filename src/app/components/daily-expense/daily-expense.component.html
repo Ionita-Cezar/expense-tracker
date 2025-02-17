@@ -17,6 +17,21 @@
 
 <div *ngIf="!viewingSummary" class="daily-expenses-container">
   <h3>Daily Expenses</h3>
+  <div class="add-expense-form">
+    <h4>Add Expense</h4>
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <input matInput placeholder="Category" [(ngModel)]="category" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Amount</mat-label>
+      <input matInput placeholder="Amount" type="number" [(ngModel)]="amount" />
+    </mat-form-field>
+  </div>
+  <div class="daily-total">
+    <button class="save-button" (click)="addExpense()">Add expense</button>
+    <button class="total-button">Daily Total: {{ expenseService.getTotal(currentDay) }}</button>
+  </div>
   <table>
     <thead>
       <tr>
@@ -39,26 +54,21 @@
       </tr>
     </tbody>
   </table>
-
-  <div class="add-expense-form">
-    <h4>Add Expense</h4>
-    <mat-form-field appearance="outline">
-      <mat-label>Category</mat-label>
-      <input matInput placeholder="Category" [(ngModel)]="category" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Amount</mat-label>
-      <input matInput placeholder="Amount" type="number" [(ngModel)]="amount" />
-    </mat-form-field>
-  </div>
-  <div class="daily-total">
-    <button class="save-button" (click)="addExpense()">Add expense</button>
-    <button class="total-button">Daily Total: {{ expenseService.getTotal(currentDay) }}</button>
-  </div>
 </div>
 
 <div *ngIf="viewingSummary" class="summary-section">
   <h2>Your weekly expense summary</h2>
+  <div class="weekly-summary-container">
+    <button class="total-button">
+      Weekly Total: {{ expenseService.getWeeklyTotal() }}
+    </button>
+    <button class="total-button">
+      Weekly Budget: {{ expenseService.getWeeklyBudget() }}
+    </button>
+    <button class="total-button">
+      Weekly Savings: {{ expenseService.getWeeklySavings() }}
+    </button>
+  </div>
   <div *ngFor="let day of days; let i = index" class="day-summary">
     <h3>{{ day }}</h3>
     <table>
@@ -75,16 +85,5 @@
         </tr>
       </tbody>
     </table>
-  </div>
-  <div class="weekly-summary-container">
-    <button class="total-button">
-      Weekly Total: {{ expenseService.getWeeklyTotal() }}
-    </button>
-    <button class="total-button">
-      Weekly Budget: {{ expenseService.getWeeklyBudget() }}
-    </button>
-    <button class="total-button">
-      Weekly Savings: {{ expenseService.getWeeklySavings() }}
-    </button>
   </div>
 </div>

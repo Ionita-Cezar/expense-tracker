@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 @NgModule({
   imports: [
     AppComponent,
-    BudgetComponent, 
+    BudgetComponent,
     SummaryComponent,
     DailyExpenseComponent,
     BrowserModule,
@@ -28,7 +28,7 @@ import { CommonModule } from '@angular/common';
     MatToolbarModule,
     MatButtonModule,
     MatTabsModule,
-    CommonModule
+    CommonModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

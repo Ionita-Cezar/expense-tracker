@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.css'],
+  styleUrls: ['./summary.component.scss'],
   standalone: true,
   imports: [CommonModule],
 })

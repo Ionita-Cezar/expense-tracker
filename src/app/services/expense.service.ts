@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
 
+export interface Expense {
+  category: string;
+  amount: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class ExpenseService {
-  private expenses: { [day: string]: { category: string; amount: number }[] } = {};
+  private expenses: { [day: string]: Expense[] } = {};
 
-  addExpense(day: string, expense: { category: string; amount: number }) {
+  addExpense(day: string, expense: Expense) {
     if (!this.expenses[day]) this.expenses[day] = [];
     this.expenses[day].push(expense);
   }
 
-  getExpenses(day: string) {
+  getExpenses(day: string): Expense[] {
     return this.expenses[day] || [];
   }
 
@@ -45,7 +50,8 @@ export class ExpenseService {
     Object.values(this.expenses)
       .flat()
       .forEach((expense) => {
-        categorySummary[expense.category] = (categorySummary[expense.category] || 0) + expense.amount;
+        categorySummary[expense.category] =
+          (categorySummary[expense.category] || 0) + expense.amount;
       });
     return categorySummary;
   }
