@@ -2,16 +2,13 @@ import { Component } from '@angular/core';
 import { BudgetComponent } from './components/budget/budget.component';
 import { DailyExpenseComponent } from './components/daily-expense/daily-expense.component';
 import { SummaryComponent } from './components/summary/summary.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [BudgetComponent, DailyExpenseComponent, SummaryComponent],
-  template: `
-    <app-budget></app-budget>
-    <app-daily-expense></app-daily-expense>
-    <app-summary></app-summary>
-  `,
+  imports: [RouterModule],
+  template: `<router-outlet></router-outlet>`,
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {}

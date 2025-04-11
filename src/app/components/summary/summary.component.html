@@ -1,0 +1,33 @@
+<div class="summary-section">
+  <h2>Set Weekly Budget</h2>
+  <mat-form-field appearance="outline">
+    <mat-label>Budget</mat-label>
+    <input matInput type="number" [(ngModel)]="budget" />
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="setBudget()">Set Budget</button>
+
+  <h2>Your Weekly Summary</h2>
+  <div class="weekly-summary-container">
+    <div class="total-display">Weekly Total: {{ expenseService.getWeeklyTotal() }}</div>
+    <div class="total-display">Weekly Budget: {{ expenseService.getWeeklyBudget() }}</div>
+    <div class="total-display">Weekly Savings: {{ expenseService.getWeeklySavings() }}</div>
+  </div>
+
+  <div *ngFor="let day of days" class="day-summary">
+    <h3>{{ day }}</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let expense of expenseService.getExpenses(day)">
+          <td>{{ expense.category }}</td>
+          <td>{{ expense.amount }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

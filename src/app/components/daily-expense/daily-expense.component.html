@@ -1,21 +1,4 @@
-<div class="days-container">
-  <button
-    *ngFor="let day of days; index as i"
-    [class.active]="currentDay === day"
-    (click)="setCurrentDay(i)"
-  >
-    {{ day }}
-  </button>
-  <button
-    class="summary-button"
-    [class.active]="viewingSummary"
-    (click)="viewSummary()"
-  >
-    SUMMARY
-  </button>
-</div>
-
-<div *ngIf="!viewingSummary" class="daily-expenses-container">
+<div class="daily-expenses-container">
   <h3>Daily Expenses</h3>
   <div class="add-expense-form">
     <h4>Add Expense</h4>
@@ -30,7 +13,7 @@
   </div>
   <div class="daily-total">
     <button class="save-button" (click)="addExpense()">Add expense</button>
-    <button class="total-button">Daily Total: {{ expenseService.getTotal(currentDay) }}</button>
+    <div class="total-display">Daily Total: {{ expenseService.getTotal(currentDay) }}</div>
   </div>
   <table>
     <thead>
@@ -43,47 +26,24 @@
     </thead>
     <tbody>
       <tr *ngFor="let expense of expenseService.getExpenses(currentDay); index as i">
-        <td>{{ expense.category }}</td>
-        <td>{{ expense.amount }}</td>
-        <td>
-          <button class="edit-button" (click)="editExpense(i)">✎</button>
-        </td>
-        <td>
-          <button class="delete-button" (click)="deleteExpense(i)">🗑</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div *ngIf="viewingSummary" class="summary-section">
-  <h2>Your weekly expense summary</h2>
-  <div class="weekly-summary-container">
-    <button class="total-button">
-      Weekly Total: {{ expenseService.getWeeklyTotal() }}
-    </button>
-    <button class="total-button">
-      Weekly Budget: {{ expenseService.getWeeklyBudget() }}
-    </button>
-    <button class="total-button">
-      Weekly Savings: {{ expenseService.getWeeklySavings() }}
-    </button>
-  </div>
-  <div *ngFor="let day of days; let i = index" class="day-summary">
-    <h3>{{ day }}</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Category</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let expense of expenseService.getExpenses(day)">
+        <ng-container *ngIf="editingIndex === i; else viewMode">
+          <td><input [(ngModel)]="editedCategory" /></td>
+          <td><input type="number" [(ngModel)]="editedAmount" /></td>
+          <td>
+            <button (click)="saveEdit()">✔</button>
+          </td>
+          <td>
+            <button (click)="cancelEdit()">✖</button>
+          </td>
+        </ng-container>
+        <ng-template #viewMode>
           <td>{{ expense.category }}</td>
           <td>{{ expense.amount }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+          <td><button class="edit-button" (click)="startEditing(i)">✎</button></td>
+          <td><button class="delete-button" (click)="deleteExpense(i)">🗑</button></td>
+        </ng-template>
+      </tr>
+      
+    </tbody>
+  </table>
 </div>

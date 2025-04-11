@@ -5,25 +5,45 @@ body {
   padding: 0;
 }
 
-.days-container {
-  display: flex;
-  justify-content: space-around;
+.navbar {
   background-color: #86c0ff;
   padding: 10px 0;
 
-  button {
-    background: #5c9bdf;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
+  .day-selector {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
 
-    &.active {
-      background: #007bff;
+    a {
+      text-decoration: none;
+    }
+
+    button {
+      background: #5c9bdf;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &.summary-button {
+        font-weight: bold;
+      }
+
+      &.active,
+      :host ::ng-deep .active-link button {
+        background: #007bff;
+      }
+
+      &:hover {
+        background: #007bff;
+      }
     }
   }
 }
+
 
 .summary-button {
   font-weight: bold;
@@ -72,14 +92,13 @@ table {
   margin: 16px 0;
 }
 
-.total-button {
+.total-display {
   flex: 1;
   padding: 10px 20px;
   background-color: #86c0ff;
   color: white;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
   text-align: center;
   font-size: 16px;
   transition: background-color 0.3s;

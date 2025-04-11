@@ -9,11 +9,24 @@ export interface Expense {
   providedIn: 'root',
 })
 export class ExpenseService {
+  private readonly STORAGE_KEY = 'weeklyExpenses';
   private expenses: { [day: string]: Expense[] } = {};
+
+  constructor() {
+    const data = localStorage.getItem(this.STORAGE_KEY);
+    if (data) {
+      this.expenses = JSON.parse(data);
+    }
+  }
+
+  private saveToStorage() {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.expenses));
+  }
 
   addExpense(day: string, expense: Expense) {
     if (!this.expenses[day]) this.expenses[day] = [];
     this.expenses[day].push(expense);
+    this.saveToStorage();
   }
 
   getExpenses(day: string): Expense[] {
@@ -23,8 +36,17 @@ export class ExpenseService {
   deleteExpense(day: string, index: number) {
     if (this.expenses[day]) {
       this.expenses[day].splice(index, 1);
+      this.saveToStorage();
     }
   }
+
+  updateExpense(day: string, index: number, updated: Expense) {
+    if (this.expenses[day]) {
+      this.expenses[day][index] = updated;
+    }
+    this.saveToStorage();
+  }
+  
 
   getTotal(day: string): number {
     return this.getExpenses(day).reduce((sum, e) => sum + e.amount, 0);

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-budget',
   standalone: true,
-  imports: [MatInputModule, MatButtonModule, FormsModule],
+  imports: [MatInputModule, MatButtonModule, FormsModule, RouterModule],
   templateUrl: './budget.component.html',
   styleUrls: ['./budget.component.scss'],
 })
@@ -18,6 +18,6 @@ export class BudgetComponent {
 
   setBudget() {
     localStorage.setItem('weeklyBudget', this.weeklyBudget.toString());
-    this.router.navigate(['/expenses']);
+    this.router.navigate(['/expenses', 'MON']);
   }
 }

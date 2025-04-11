@@ -1,0 +1,12 @@
+<nav class="navbar">
+  <div class="day-selector">
+    <a *ngFor="let day of days" [routerLink]="['/expenses', day]" routerLinkActive="active-link">
+      <button>{{ day }}</button>
+    </a>
+    <a [routerLink]="['/summary']" routerLinkActive="active-link">
+      <button class="summary-button">SUMMARY</button>
+    </a>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

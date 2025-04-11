@@ -4,6 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 enum Days {
   MON = 'MON',
@@ -20,25 +21,26 @@ enum Days {
   templateUrl: './daily-expense.component.html',
   styleUrls: ['./daily-expense.component.scss'],
   standalone: true,
-  imports: [MatInputModule, MatButtonModule, FormsModule, CommonModule],
+  imports: [MatInputModule, MatButtonModule, FormsModule, CommonModule, RouterModule],
 })
 export class DailyExpenseComponent {
   days = Object.values(Days);
   currentDay: Days = Days.MON;
-  viewingSummary = false;
 
   category: string = '';
   amount: number | null = null;
 
-  constructor(public expenseService: ExpenseService) {}
+  constructor(private route: ActivatedRoute, public expenseService: ExpenseService) {
+    this.route.params.subscribe(params => {
+      const day = params['day']?.toUpperCase();
+      if (Object.values(Days).includes(day)) {
+        this.currentDay = day as Days;
+      }
+    });
+  }
 
   setCurrentDay(index: number): void {
     this.currentDay = this.days[index] as Days;
-    this.viewingSummary = false;
-  }
-
-  viewSummary(): void {
-    this.viewingSummary = true;
   }
 
   addExpense(): void {
@@ -52,11 +54,35 @@ export class DailyExpenseComponent {
     }
   }
 
-  editExpense(index: number): void {
+  editingIndex: number | null = null;
+  editedCategory: string = '';
+  editedAmount: number | null = null;
+
+  startEditing(index: number): void {
     const expense = this.expenseService.getExpenses(this.currentDay)[index];
-    this.category = expense.category;
-    this.amount = expense.amount;
-    this.deleteExpense(index);
+    this.editingIndex = index;
+    this.editedCategory = expense.category;
+    this.editedAmount = expense.amount;
+  }
+
+  saveEdit(): void {
+    if (
+      this.editingIndex !== null &&
+      this.editedCategory &&
+      this.editedAmount !== null
+    ) {
+      this.expenseService.updateExpense(this.currentDay, this.editingIndex, {
+        category: this.editedCategory,
+        amount: this.editedAmount,
+      });
+      this.editingIndex = null;
+      this.editedCategory = '';
+      this.editedAmount = null;
+    }
+  }
+
+  cancelEdit(): void {
+    this.editingIndex = null;
   }
 
   deleteExpense(index: number): void {
